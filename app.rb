@@ -38,8 +38,11 @@ helpers do
 end
   
 get '/' do
-  authorized
   'Api Initialized...'
+end
+
+post '/commits' do
+  github.commit_list
 end
 
 post '/label/refer/:label/:token' do
