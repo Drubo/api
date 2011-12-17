@@ -42,7 +42,7 @@ get '/' do
 end
 
 post '/commits' do
-  authorized
+  settings.ghuser
   # github.commit_list
 end
 
