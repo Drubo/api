@@ -40,7 +40,7 @@ end
 get '/' do
   'Api Initialized...'
   'hi'
-  'GitHub UserName: ' settings.ghuser
+  
 end
 
 post '/commits' do
