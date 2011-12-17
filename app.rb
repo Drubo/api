@@ -39,7 +39,7 @@ end
   
 get '/' do
   'Api Initialized...'
-  'hi'
+  settings.ghuser
   
 end
 
