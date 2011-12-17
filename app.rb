@@ -38,6 +38,7 @@ helpers do
 end
   
 get '/' do
+  authorized
   'Api Initialized...'
 end
 
