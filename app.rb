@@ -42,7 +42,8 @@ get '/' do
 end
 
 post '/commits' do
-  github.commit_list
+  authorized
+  # github.commit_list
 end
 
 post '/label/refer/:label/:token' do
