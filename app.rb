@@ -76,7 +76,7 @@ end
 post '/comment/:token' do
   respond_to_commits do |commit|
     comment = <<EOM
-Referenced by #{commit["id"]}
+Referenced by #{commit["id"]} 
 
 #{commit["message"]} 
 
