@@ -91,6 +91,6 @@ end
 
 get '/' do
   'Api Initialized...'
-  settings.ghuser
+  github.commit_list
   
 end
