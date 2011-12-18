@@ -42,7 +42,7 @@ end
 
 get '/commits/:token' do
   return "UNKNOWN APP" unless authorized?
-  github.reopen_issue issue
+  github.reopen_issue 2
 end
   
 post '/label/refer/:label/:token' do
