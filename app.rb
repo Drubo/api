@@ -16,7 +16,7 @@ helpers do
   end
 
   def repo
-    @repo = "Drubo/api"
+    @repo = "api"
   end
 
   def github
