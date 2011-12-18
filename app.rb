@@ -3,7 +3,7 @@ require 'sinatra'
 require 'net/http'
 require 'net/https'
 require 'json'
-# require './github'
+require './github'
 
 set :ghuser, ENV['GH_USER']
 set :ghpass, ENV['GH_PASSWORD']
@@ -15,14 +15,12 @@ helpers do
     @payload ||= JSON.parse(params[:payload])
   end
 
-  def repos
-    # @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
-    @repos = Github::Repos.new :user => 'Drubo', :repo => 'api'
+  def repo
+    @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
   end
 
   def github
-    # @github ||= GitHub.new(repo, settings.ghuser, settings.ghpass)
-    @github = Github.new :basic_auth => 'Drubo:12345678abc'
+    @github ||= GitHub.new(repo, settings.ghuser, settings.ghpass)
   end
 
   def authorized?
@@ -44,9 +42,7 @@ get '/' do
 end
   
 get '/commits' do
-  github.repos.branches do |branch|
-    puts branch.name
-  end
+  github.commit_list
 end
 
   
