@@ -38,10 +38,11 @@ end
 
 get '/' do
   'Api Initialized...'
-  settings.token
 end
 
-get 'commits/:token' do
+get '/commits/:token' do
+  settings.token
+  params[:token]
   return "UNKNOWN APP" unless authorized?
   
 end
