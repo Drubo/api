@@ -38,6 +38,7 @@ end
 
 get '/' do
   'Api Initialized...'
+  #{settings.token}
 end
 
 get 'commits/:token' do
