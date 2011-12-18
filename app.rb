@@ -3,7 +3,7 @@ require 'sinatra'
 require 'net/http'
 require 'net/https'
 require 'json'
-require './github'
+# require './github'
 
 set :ghuser, ENV['GH_USER']
 set :ghpass, ENV['GH_PASSWORD']
@@ -20,7 +20,8 @@ helpers do
   end
 
   def github
-    @github ||= GitHub.new(repo, settings.ghuser, settings.ghpass)
+    # @github ||= GitHub.new(repo, settings.ghuser, settings.ghpass)
+    @github = Github.new :basic_auth => 'Drubo:12345678abc'
   end
 
   def authorized?
@@ -42,10 +43,7 @@ get '/' do
 end
   
 get '/commits' do
-  #github.commit_list
-  request.body.rewind  # in case someone already read it
-    data = JSON.parse request.body.read
-    "Hello #{data['name']}!"
+  @github
 end
 
   
