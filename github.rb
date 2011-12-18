@@ -24,7 +24,7 @@ class GitHub
   end
   
   def remove_issue_label(issue, label)
-    self.class.post("/issues/label/remove/#{@repo}/#{label}/#{issue}", options)
+    self.class.post("/issues/label/remove/#{@user}/#{@repo}/#{label}/#{issue}", options)
   end
 
   def reopen_issue(issue)
@@ -33,7 +33,7 @@ class GitHub
 
   def comment_issue(issue, comment)
     options[:body] = {"comment" => comment}
-    self.class.post("/issues/comment/#{@repo}/#{issue}", options)
+    self.class.post("/issues/comment/#{@user}/#{@repo}/#{issue}", options)
   end
 
   def self.issue(message)
