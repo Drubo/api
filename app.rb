@@ -38,7 +38,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  puts #{ENV['TOKEN']}
+  puts #{ENV['LANG']}
 end
 
 get 'commits/:token' do
