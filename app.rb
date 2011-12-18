@@ -15,9 +15,9 @@ helpers do
     @payload ||= JSON.parse(params[:payload])
   end
 
-  def repo
+  def repos
     # @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
-    @repo = Github::Repos.new :user => 'Drubo', :repo => 'api'
+    @repos = Github::Repos.new :user => 'Drubo', :repo => 'api'
   end
 
   def github
@@ -44,8 +44,7 @@ get '/' do
 end
   
 get '/commits' do
-  github
-  repo.branches do |branch|
+  github.repos.branches do |branch|
     puts branch.name
   end
 end
