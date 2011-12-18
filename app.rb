@@ -42,7 +42,10 @@ get '/' do
 end
   
 get '/commits' do
-  github.commit_list
+  #github.commit_list
+  request.body.rewind  # in case someone already read it
+    data = JSON.parse request.body.read
+    "Hello #{data['name']}!"
 end
 
 post '/label/refer/:label/:token' do
