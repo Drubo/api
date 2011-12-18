@@ -41,10 +41,8 @@ get '/' do
 end
 
 get '/commits/:token' do
-  settings.token
-  params[:token]
   return "UNKNOWN APP" unless authorized?
-  
+  github.reopen_issue issue
 end
   
 post '/label/refer/:label/:token' do
