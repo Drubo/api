@@ -5,11 +5,7 @@ require 'net/https'
 require 'json'
 require './github'
 
-set :ghuser, ENV['GH_USER']
-set :ghpass, ENV['GH_PASSWORD']
 set :token,  ENV['TOKEN']
-set :ref, ENV['REF'] || "refs/heads/master"
-
 helpers do
   def payload
     @payload = JSON.parse(params[:payload])
@@ -19,17 +15,20 @@ helpers do
     @repo = "#{payload["repository"]["name"]}"
   end
 
-  def github
-    @github = GitHub.new(repo, settings.ghuser, settings.ghpass)
+  def gituser
+    @gituser = "#{payload["repository"]["owner"]["name"]}"
   end
 
+  def github
+    @github = GitHub.new(repo, gituser, settings.token)
+  end
+  
   def authorized?
     settings.token == params[:token]
   end
 
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
-    return "Ignoring commits to #{payload["ref"]}" unless payload["ref"] == settings.ref
     payload["commits"].reverse.each do |commit|
       yield commit
     end
