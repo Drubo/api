@@ -44,7 +44,8 @@ get '/' do
 end
   
 get '/commits' do
-  @repo.branches do |branch|
+  github
+  repo.branches do |branch|
     puts branch.name
   end
 end
