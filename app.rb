@@ -37,7 +37,7 @@ helpers do
 end
 
 get '/' do
-  'Api Initialized...'
+  'Api Initialized...' 
 end
 
 post '/label/refer/:label/:token' do
