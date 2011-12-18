@@ -71,8 +71,10 @@ post '/reopen/:token' do
     GitHub.closed_issues(commit["message"]) do |issue|
       github.reopen_issue issue
     end
+    puts commit
   end
   puts #{repo}
+  puts issue
 end
 
 post '/comment/:token' do
