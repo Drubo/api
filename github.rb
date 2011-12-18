@@ -27,7 +27,7 @@ class GitHub
   end
   
   def commit_list()
-    self.class.post("/commits/list/Drubo/api/master", options)
+    self.class.post("/commits/list/Drubo/#{@repo}/master", options)
   end
   
   def remove_issue_label(issue, label)

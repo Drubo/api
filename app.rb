@@ -12,15 +12,15 @@ set :ref, ENV['REF'] || "refs/heads/master"
 
 helpers do
   def payload
-    @payload ||= JSON.parse(params[:payload])
+    @payload = JSON.parse(params[:payload])
   end
 
   def repo
-    @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
+    @repo = "api"
   end
 
   def github
-    @github ||= GitHub.new(repo, settings.ghuser, settings.ghpass)
+    @github = GitHub.new(repo, settings.ghuser, settings.ghpass)
   end
 
   def authorized?
@@ -42,9 +42,8 @@ get '/' do
 end
   
 get '/commits/:token' do
-  respond_to_commits do |commit|
-    puts github.commit_list
-  end
+  return "UNKNOWN APP" unless authorized?
+  github.commit_list
 end
 
   
