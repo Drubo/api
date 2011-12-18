@@ -38,13 +38,11 @@ helpers do
 end
 
 get '/' do
-#  'Api Initialized...'
-  github.commit_list
+  'Api Initialized...'
 end
   
 get '/commits' do
-  settings.ghuser
-  # github.commit_list
+  github.commit_list
 end
 
 post '/label/refer/:label/:token' do
