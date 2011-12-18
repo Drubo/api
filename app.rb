@@ -48,9 +48,6 @@ get '/commits' do
     "Hello #{data['name']}!"
 end
 
-error do
-    'Sorry there was a nasty error - ' + env['sinatra.error'].name
-end
   
 post '/label/refer/:label/:token' do
   respond_to_commits do |commit|
