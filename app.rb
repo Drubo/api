@@ -16,7 +16,8 @@ helpers do
   end
 
   def repo
-    @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
+    # @repo ||= "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
+    @repo = Github::Repos.new :user => 'Drubo', :repo => 'api'
   end
 
   def github
@@ -43,7 +44,9 @@ get '/' do
 end
   
 get '/commits' do
-  @github.repos.commits
+  @repo.branches do |branch|
+    puts branch.name
+  end
 end
 
   
