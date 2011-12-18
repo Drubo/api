@@ -41,7 +41,7 @@ get '/' do
   'Api Initialized...'
 end
   
-get '/commits' do
+get '/commits/:token' do
   respond_to_commits do |commit|
     puts github.commit_list
   end
