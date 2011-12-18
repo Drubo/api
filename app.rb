@@ -12,11 +12,11 @@ helpers do
   end
 
   def repo
-    @repo = "#{payload["repository"]["name"]}"
+    @repo = "Testing"
   end
 
   def gituser
-    @gituser = "#{payload["repository"]["owner"]["name"]}"
+    @gituser = "Drubo"
   end
 
   def github
@@ -38,6 +38,10 @@ end
 
 get '/' do
   'Api Initialized...'
+end
+
+get 'commits/:token' do
+  github.reopen_issue 3
 end
   
 post '/label/refer/:label/:token' do
