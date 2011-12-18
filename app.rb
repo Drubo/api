@@ -74,7 +74,7 @@ post '/reopen/:token' do
     end
     puts #{commit["message"]}
   end
-  puts #{repo}
+  puts #{repo} 
 end
 
 post '/comment/:token' do
