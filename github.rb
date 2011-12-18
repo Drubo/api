@@ -19,7 +19,7 @@ class GitHub
     @user = user
     @pass = pass
     @repo = repo
-    self.class.basic_auth user, pass
+    
   end
 
   def label_issue(issue, label)
