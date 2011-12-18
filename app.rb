@@ -53,7 +53,6 @@ post '/label/closed/:label/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       github.label_issue issue, params[:label]
-      puts #{params[:label]}
     end
   end
 end
@@ -70,11 +69,8 @@ post '/reopen/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       github.reopen_issue issue
-      puts #{issue}
     end
-    puts #{commit["message"]}
   end
-  puts #{repo} 
 end
 
 post '/comment/:token' do
