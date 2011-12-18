@@ -1,4 +1,4 @@
-# app.rb 
+# app.rb
 require 'sinatra'
 require 'net/http'
 require 'net/https'
@@ -16,7 +16,7 @@ helpers do
   end
 
   def repo
-    @repo = "#{payload["repository"]["owner"]["name"]}/#{payload["repository"]["name"]}"
+    @repo = "Drubo/api"
   end
 
   def github
@@ -40,6 +40,13 @@ end
 get '/' do
   'Api Initialized...'
 end
+  
+get '/commits/:token' do
+  return "UNKNOWN APP" unless authorized?
+  github.reopen_issue 1
+  github.label_issue 1, "WaitingForReview"
+end
+
   
 post '/label/refer/:label/:token' do
   respond_to_commits do |commit|
