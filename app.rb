@@ -12,11 +12,11 @@ helpers do
   end
 
   def repo
-    @repo = "api"
+    @repo = "#{payload["repository"]["name"]}"
   end
 
   def gituser
-    @gituser = "Drubo"
+    @gituser = "#{payload["repository"]["owner"]["name"]}"
   end
 
   def github
@@ -40,11 +40,6 @@ get '/' do
   'Api Initialized...'
 end
 
-get '/commits/:token' do
-  return "UNKNOWN APP" unless authorized?
-  github.reopen_issue 2
-end
-  
 post '/label/refer/:label/:token' do
   respond_to_commits do |commit|
     GitHub.nonclosing_issues(commit["message"]) do |issue|
