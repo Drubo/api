@@ -90,7 +90,7 @@ EOM
 end
 
 get '/' do
-  'Api Initialized...'
+#  'Api Initialized...'
   github.commit_list
   
 end

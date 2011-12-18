@@ -17,6 +17,7 @@ class GitHub
     @user = user
     @pass = pass
     @repo = repo
+    self.class.basic_auth user, pass
   end
 
   def label_issue(issue, label)
@@ -24,7 +25,7 @@ class GitHub
   end
   
   def commit_list()
-    self.class.post("/commits/list/Drubo/api/master", options)
+    self.class.post("/commits/list/Drubo/api/master")
   end
   
   def remove_issue_label(issue, label)
