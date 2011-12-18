@@ -43,7 +43,7 @@ get '/' do
 end
   
 get '/commits' do
-  @github
+  @github.repos.commits
 end
 
   
