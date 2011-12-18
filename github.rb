@@ -23,16 +23,12 @@ class GitHub
     self.class.post("/issues/label/add/#{@repo}/#{label}/#{issue}", options)
   end
   
-  def commit_list()
-    self.class.post("/commits/list/Drubo/#{@repo}/master", options)
-  end
-  
   def remove_issue_label(issue, label)
     self.class.post("/issues/label/remove/#{@repo}/#{label}/#{issue}", options)
   end
 
   def reopen_issue(issue)
-    self.class.post("/issues/reopen/#{@repo}/#{issue}", options)
+    self.class.post("/issues/reopen/Drubo/#{@repo}/#{issue}", options)
   end
 
   def comment_issue(issue, comment)
