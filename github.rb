@@ -28,7 +28,7 @@ class GitHub
   end
 
   def reopen_issue(issue)
-    self.class.post("/issues/reopen/Drubo/#{@repo}/#{issue}", options)
+    self.class.post("/issues/reopen/#{@user}/#{@repo}/#{issue}", options)
   end
 
   def comment_issue(issue, comment)

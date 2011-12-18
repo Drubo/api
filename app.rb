@@ -43,7 +43,7 @@ end
   
 get '/commits/:token' do
   return "UNKNOWN APP" unless authorized?
-  github.reopen_issue 2
+  github.reopen_issue 1
 end
 
   
