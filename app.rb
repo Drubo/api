@@ -43,7 +43,7 @@ end
   
 get '/commits/:token' do
   return "UNKNOWN APP" unless authorized?
-  github.reopen_issue 1
+  github.label_issue 1, "WaitingForReview"
 end
 
   
