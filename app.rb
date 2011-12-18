@@ -42,7 +42,9 @@ get '/' do
 end
   
 get '/commits' do
-  github.commit_list
+  respond_to_commits do |commit|
+    puts github.commit_list
+  end
 end
 
   
