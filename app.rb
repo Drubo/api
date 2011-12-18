@@ -36,8 +36,13 @@ helpers do
     "OK"
   end
 end
+
+get '/' do
+#  'Api Initialized...'
+  github.commit_list
+end
   
-post '/commits' do
+get '/commits' do
   settings.ghuser
   # github.commit_list
 end
@@ -87,10 +92,4 @@ EOM
       github.comment_issue issue, comment
     end
   end
-end
-
-get '/' do
-#  'Api Initialized...'
-  github.commit_list
-  
 end
