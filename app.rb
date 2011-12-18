@@ -12,7 +12,7 @@ helpers do
   end
 
   def repo
-    @repo = "Testing"
+    @repo = "api"
   end
 
   def gituser
@@ -41,7 +41,8 @@ get '/' do
 end
 
 get 'commits/:token' do
-  github.reopen_issue 3
+  return "UNKNOWN APP" unless authorized?
+  github.reopen_issue 2
 end
   
 post '/label/refer/:label/:token' do
