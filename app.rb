@@ -55,6 +55,7 @@ post '/label/closed/:label/:token' do
       github.label_issue issue, params[:label]
     end
   end
+  puts #{repo}
 end
 
 post '/label/remove/closed/:label/:token' do
@@ -71,6 +72,7 @@ post '/reopen/:token' do
       github.reopen_issue issue
     end
   end
+  puts #{repo}
 end
 
 post '/comment/:token' do
