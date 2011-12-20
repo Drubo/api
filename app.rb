@@ -77,8 +77,8 @@ post '/reopen/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       github.reopen_issue issue
-      call env.merge("PATH_INFO" => '/label/remove/closed/NewIssue/'+params[:token])
-      call env.merge("PATH_INFO" => '/label/closed/WaitingForReview/'+params[:token])
+      call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
+      call env.merge("PATH_INFO" => '/label/closed/Waiting For Review/'+params[:token])
     end
   end
 end
