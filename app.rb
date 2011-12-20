@@ -27,6 +27,10 @@ helpers do
     settings.token == params[:token]
   end
 
+  def noreopen?
+    "#{commit["author"]["name"]}"==gituser
+  end
+
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
     payload["commits"].reverse.each do |commit|
@@ -42,9 +46,6 @@ end
 
 post '/action/:token' do
   respond_to_commits do |commit|
-    def noreopen?
-      "#{commit["author"]["name"]}"==gituser
-    end
     call env.merge("PATH_INFO" => '/reopen/params[:token]') unless noreopen?
     if noreopen?
       call env.merge("PATH_INFO" => '/noreopen/params[:token]')
