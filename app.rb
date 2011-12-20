@@ -39,7 +39,7 @@ end
 get '/' do
   'Api Initialized...' 
 end
-
+ 
 post '/action/:token' do
   respond_to_commits do |commit|
     def noreopen?
