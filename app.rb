@@ -41,7 +41,7 @@ helpers do
 end
 
 get '/' do
-  'Api Initialized...' 
+  'Api Initialized...'
 end
 
 post '/action/:token' do
