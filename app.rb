@@ -45,8 +45,6 @@ post '/action/:token' do
     def noreopen?
       "#{commit["author"]["name"]}"==gituser
     end
-    logger.info "#{commit["author"]["name"]}"
-    logger.info gituser
     call env.merge("PATH_INFO" => '/reopen/params[:token]') unless noreopen?
     if noreopen?
       call env.merge("PATH_INFO" => '/noreopen/params[:token]')
