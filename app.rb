@@ -42,11 +42,8 @@ end
 
 post '/action/:token' do
   respond_to_commits do |commit|
-    def noreopen?
-      commit["author"]["name"]==gituser
-    end
-    call env.merge("PATH_INFO" => '/reopen/params[:token]') unless noreopen?
-    if noreopen?
+    call env.merge("PATH_INFO" => '/reopen/params[:token]') unless commit["author"]["name"]==gituser
+    if commit["author"]["name"]==gituser
       call env.merge("PATH_INFO" => '/noreopen/params[:token]')
     end
   end
