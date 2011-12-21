@@ -4,6 +4,7 @@ require 'net/http'
 require 'net/https'
 require 'json'
 require './github'
+require 'crack/json'
 
 set :token,  ENV['TOKEN']
 helpers do
