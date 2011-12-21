@@ -48,6 +48,9 @@ end
 get '/' do
   'Api Initialized...'
   issue_info = Crack::JSON.parse((github.view_issue 52).inspect)
+  issue_info["labels"].each do |label|
+    yield label
+  end
 end
 
 post '/action/:token' do
