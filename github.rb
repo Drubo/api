@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'httparty'
-require 'crack/json'
 
 module HTTParty
   class Request
