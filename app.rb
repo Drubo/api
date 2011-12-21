@@ -30,6 +30,10 @@ helpers do
   def authorized?
     settings.token == params[:token]
   end
+  
+  def accepted
+    @accepted = "false"
+  end
 
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
@@ -80,6 +84,12 @@ end
 post '/reopen/:commiter/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
+      GitHub.view_issue(issue) do |label|
+        if label=="Accepted"
+          accepted = "true"
+        end
+      end
+      return "Issue Accepted" if accepted=="true"
       github.reopen_issue issue
       call env.merge("PATH_INFO" => '/comment/'+params[:token])
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
