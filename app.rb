@@ -46,8 +46,10 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.view_issue 52
-  (github.view_issue 52).to_s
+  issue_info = (github.view_issue 52).to_s
+  issue_info
+  issue_test = JSON.parse(issue_info)
+  issue_test
 end
 
 post '/action/:token' do
