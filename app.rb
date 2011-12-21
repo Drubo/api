@@ -47,7 +47,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.view_issue 52
+  issue_info = Crack::JSON.parse(github.view_issue 52)
 end
 
 post '/action/:token' do
