@@ -41,9 +41,7 @@ class GitHub
   
   def view_issue_label(issue)
     issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
-    issue_info["labels"].each do |label|
-      yield label
-    end
+    yield issue_info
   end
 
   def self.issue(message)
