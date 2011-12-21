@@ -12,11 +12,11 @@ helpers do
   end
 
   def repo
-    @repo = "#{payload["repository"]["name"]}"
+    @repo = "Verified"
   end
 
   def gituser
-    @gituser = "#{payload["repository"]["owner"]["name"]}"
+    @gituser = "Drubo"
   end
 
   def gitemail
@@ -46,6 +46,9 @@ end
 
 get '/' do
   'Api Initialized...'
+  GitHub.view_issue(52) do |label|
+    label
+  end
 end
 
 post '/action/:token' do
