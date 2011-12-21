@@ -46,9 +46,8 @@ end
 
 get '/' do
   'Api Initialized...'
-  JSON.parse((github.view_issue 52).to_s)["labels"].each do |label|
-    label
-  end
+  github.view_issue 52
+  (github.view_issue 52).to_s
 end
 
 post '/action/:token' do
