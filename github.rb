@@ -36,8 +36,8 @@ class GitHub
     self.class.post("/issues/comment/#{@user}/#{@repo}/#{issue}", options)
   end
   
-  def self.view_issue(issue)
-    self.class.post("/issues/show/#{@user}/#{@repo}/#{issue}", options)
+  def view_issue(issue)
+    self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
   end
 
   def self.issue(message)
