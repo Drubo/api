@@ -37,7 +37,7 @@ class GitHub
   end
   
   def view_issue(issue)
-    self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
+    self.class.post("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
   end
 
   def self.issue(message)
