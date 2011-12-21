@@ -37,7 +37,10 @@ class GitHub
   end
   
   def view_issue(issue)
-    self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
+    issue_info = JSON.parse(self.class.post("/issues/show/#{@user}/#{@repo}/#{issue}", options))
+    issue_info["labels"].each do |label|
+      yield label
+    end
   end
 
   def self.issue(message)
