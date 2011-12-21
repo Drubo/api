@@ -4,7 +4,6 @@ require 'net/http'
 require 'net/https'
 require 'json'
 require './github'
-require 'pp'
 
 set :token,  ENV['TOKEN']
 helpers do
@@ -49,7 +48,7 @@ get '/' do
   'Api Initialized...'
   issue_info = (github.view_issue 52)
   issue_info.each do |label|
-    label["issues"]
+    label
   end
 end
 
