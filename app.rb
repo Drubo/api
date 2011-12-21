@@ -101,7 +101,7 @@ post '/reopen/:commiter/:token' do
       return "Issue Accepted" if accepted=="true"
       return "Issue Already Waiting for Review" if waiting=="true"
       github.reopen_issue issue
-      call env.merge("PATH_INFO" => '/comment/'+issue+'/'+commit)
+      call env.merge("PATH_INFO" => '/comment/'+issue+'/'+commit["id"])
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/'+params[:commiter]+'/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/Waiting For Review/'+params[:token])
@@ -119,9 +119,9 @@ post '/noreopen/:token' do
   end
 end
 
-post '/comment/:issue/:commit' do
+post '/comment/:issue/:commit_id' do
   comment = <<EOM
-Issue referenced by #{params[:commit["id"]]} is reopening automatically for Review
+Issue referenced by #{params[:commit_id]} is reopening automatically for Review
 EOM
   github.comment_issue params[:issue], comment
 end
