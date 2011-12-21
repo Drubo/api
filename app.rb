@@ -35,6 +35,10 @@ helpers do
     @accepted = "false"
   end
 
+  def waiting
+    @waiting = "false"
+  end
+
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
     payload["commits"].reverse.each do |commit|
@@ -85,12 +89,17 @@ post '/reopen/:commiter/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       accepted = "false"
+      waiting = "false"
       github.view_issue_label issue do |label|
         if label=="Accepted"
           accepted = "true"
         end
+        if label=="Waiting For Review"
+          waiting = "true"
+        end
       end
       return "Issue Accepted" if accepted=="true"
+      return "Issue Already Waiting for Review" if waiting=="true"
       github.reopen_issue issue
       call env.merge("PATH_INFO" => '/comment/'+issue+'/'+commit)
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
@@ -104,6 +113,7 @@ post '/noreopen/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
+      call env.merge("PATH_INFO" => '/label/closed/'+params[:commiter]+'/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/Accepted/'+params[:token])
     end
   end
