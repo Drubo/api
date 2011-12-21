@@ -12,6 +12,8 @@ end
 class GitHub
   include HTTParty
   base_uri "https://github.com/api/v2/json"
+  default_params :output => 'json'
+  format :json
   
   def initialize(repo, user=nil, pass=nil)
     @user = user
