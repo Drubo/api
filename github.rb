@@ -37,7 +37,7 @@ class GitHub
   end
   
   def view_issue(issue)
-    JSON.parse(self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options))["labels"].each do |label|
+    JSON.parse(self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect)["labels"].each do |label|
       yield label
     end
   end
