@@ -1,8 +1,5 @@
 require 'rubygems'
 require 'httparty'
-require 'net/http'
-require 'net/https'
-require 'json'
 
 module HTTParty
   class Request
@@ -40,11 +37,7 @@ class GitHub
   end
   
   def view_issue(issue)
-    issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
-    issue_info = JSON.parse(issue_info)
-    issue_info["labels"].each do |label|
-      yield label
-    end
+    self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
   end
 
   def self.issue(message)
