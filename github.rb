@@ -40,7 +40,7 @@ class GitHub
   end
   
   def view_issue_label(issue)
-    issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
+    issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
     yield issue_info
   end
 
