@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'httparty'
+require 'net/http'
+require 'net/https'
+require 'json'
 
 module HTTParty
   class Request
