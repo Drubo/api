@@ -48,7 +48,8 @@ get '/' do
   'Api Initialized...'
   issue_info = (github.view_issue 52)
   issue_info.each do |label|
-    label.to_s
+    test = JSON.parse(label.to_s)
+    test
   end
 end
 
