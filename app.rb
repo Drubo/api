@@ -81,6 +81,7 @@ post '/reopen/:commiter/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       github.reopen_issue issue
+      call env.merge("PATH_INFO" => '/comment/'+params[:token])
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/'+params[:commiter]+'/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/Waiting For Review/'+params[:token])
@@ -92,6 +93,7 @@ post '/noreopen/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
+      call env.merge("PATH_INFO" => '/label/closed/'+params[:commiter]+'/'+params[:token])
       call env.merge("PATH_INFO" => '/label/closed/Accepted/'+params[:token])
     end
   end
@@ -100,11 +102,7 @@ end
 post '/comment/:token' do
   respond_to_commits do |commit|
     comment = <<EOM
-Referenced by #{commit["id"]}
-
-#{commit["message"]}
-
-_Added by Automation_
+Issue referenced by #{commit["id"]} is reopening automatically for Review
 EOM
     GitHub.nonclosing_issues(commit["message"]) do |issue|
       github.comment_issue issue, comment
