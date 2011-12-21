@@ -49,7 +49,8 @@ get '/' do
   issue_info = (github.view_issue 52)
   issue_info.to_s
   issue_info.each do |label|
-    label
+    test = JSON.parse(label)
+    test
   end
 end
 
