@@ -4,7 +4,6 @@ require 'net/http'
 require 'net/https'
 require 'json'
 require './github'
-require 'crack/json'
 
 set :token,  ENV['TOKEN']
 helpers do
@@ -47,7 +46,9 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.view_issue 52
+  github.view_issue_label 52 do |label|
+    label
+  end
 end
 
 post '/action/:token' do
@@ -86,7 +87,7 @@ end
 post '/reopen/:commiter/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
-      GitHub.view_issue(issue) do |label|
+      github.view_issue_label issue do |label|
         if label=="Accepted"
           accepted = "true"
         end

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'httparty'
+require 'crack/json'
 
 module HTTParty
   class Request
@@ -38,8 +39,11 @@ class GitHub
     self.class.post("/issues/comment/#{@user}/#{@repo}/#{issue}", options)
   end
   
-  def view_issue(issue)
-    self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
+  def view_issue_label(issue)
+    issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options).inspect
+    issue_info["labels"].each do |label|
+      yield label
+    end
   end
 
   def self.issue(message)
