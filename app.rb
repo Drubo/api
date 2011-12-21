@@ -47,10 +47,7 @@ end
 get '/' do
   'Api Initialized...'
   issue_info = github.view_issue 52
-  issue_info = JSON.parse(issue_info)
-  issue_info["labels"].each do |label|
-    yield label
-  end
+  issue_info
 end
 
 post '/action/:token' do
