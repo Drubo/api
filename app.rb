@@ -46,10 +46,10 @@ end
 
 get '/' do
   'Api Initialized...'
-  issue_info = (github.view_issue 52).to_s
-  issue_info
-  issue_test = JSON.parse(issue_info)
-  issue_test
+  issue_info = (github.view_issue 52)
+  issue_info.labels.each do |label|
+    label
+  end
 end
 
 post '/action/:token' do
