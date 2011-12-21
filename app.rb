@@ -46,7 +46,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.label_issue 53, "Test"
+  GitHub.view_issue(52)
 end
 
 post '/action/:token' do
