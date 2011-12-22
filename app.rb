@@ -64,7 +64,7 @@ end
 post '/reopen/:commit_message/:commit_author/:commit_id' do
   GitHub.closed_issues(params[:commit_message]) do |issue|
     call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/Accepted')
-    return "Issue Accepted" if found=="true"
+    return "Issue Accepted" unless found=="false"
 
     call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/New Issue')
     if found=="true"
