@@ -54,15 +54,15 @@ end
 
 post '/action/:token' do
   respond_to_commits do |commit|
-    call env.merge("PATH_INFO" => '/reopen/'+commit["author"]["name"]+'/'+commit["message"]+'/'+commit["id"]) unless commit["author"]["email"]==gitemail
+    call env.merge("PATH_INFO" => '/reopen/'+commit) unless commit["author"]["email"]==gitemail
     if commit["author"]["email"]==gitemail
-      call env.merge("PATH_INFO" => '/noreopen/'+commit["author"]["name"]+'/'+commit["message"])
+      call env.merge("PATH_INFO" => '/noreopen/'+commit)
     end 
   end
 end
 
-post '/reopen/:commiter/:commit_message/:commit_id' do
-  GitHub.closed_issues(params[:commit_message]) do |issue|
+post '/reopen/:commit' do
+  GitHub.closed_issues(params[:commit]["message"]) do |issue|
     accepted = "false"
     waiting = "false"
     github.view_issue_label issue do |label|
@@ -79,17 +79,17 @@ post '/reopen/:commiter/:commit_message/:commit_id' do
       return "Issue Already Waiting for Review"
     end
     github.reopen_issue issue
-    call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit_id])
+    call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit]["id"])
     github.remove_issue_label issue, "New Issue"
-    github.add_issue_label issue, params[:commiter]
+    github.add_issue_label issue, params[:commit]["author"]["name"]
     github.add_issue_label issue, "Waiting For Review"
   end
 end
 
-post '/noreopen/:commiter/:commit_message' do
-  GitHub.closed_issues(params[:commit_message]) do |issue|
+post '/noreopen/:commit' do
+  GitHub.closed_issues(params[:commit]["message"]) do |issue|
     github.remove_issue_label issue, "New Issue"
-    github.add_issue_label issue, params[:commiter]
+    github.add_issue_label issue, params[:commit]["author"]["name"]
     github.add_issue_label issue, "Accepted"
   end
 end
