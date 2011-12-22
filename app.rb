@@ -99,7 +99,10 @@ post '/reopen/:commiter/:token' do
         end
       end
       return "Issue Accepted" if accepted=="true"
-      return "Issue Already Waiting for Review" if waiting=="true"
+      if waiting=="true"
+        github.reopen_issue issue
+        return "Issue Already Waiting for Review"
+      end
       github.reopen_issue issue
       call env.merge("PATH_INFO" => '/comment/'+issue+'/'+commit["id"])
       call env.merge("PATH_INFO" => '/label/remove/closed/New Issue/'+params[:token])
