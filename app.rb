@@ -54,21 +54,21 @@ end
 
 post '/action/:token' do
   respond_to_commits do |commit|
-    call env.merge("PATH_INFO" => '/reopen/'+commit) unless commit["author"]["email"]==gitemail
+    call env.merge("PATH_INFO" => '/reopen/'+commit["message"]+'/'+commit["author"]["name"]+'/'+commit["id"]) unless commit["author"]["email"]==gitemail
     if commit["author"]["email"]==gitemail
-      call env.merge("PATH_INFO" => '/noreopen/'+commit)
+      call env.merge("PATH_INFO" => '/noreopen/'+commit["message"]+'/'+commit["author"]["name"])
     end 
   end
 end
 
-post '/reopen/:commit' do
-  GitHub.closed_issues(params[:commit]["message"]) do |issue|
+post '/reopen/:commit_message/:commit_author/:commit_id' do
+  GitHub.closed_issues(params[:commit_message]) do |issue|
     call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/Accepted')
     return "Issue Accepted" if found=="true"
 
     call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/New Issue')
     if found=="true"
-      call env.merge("PATH_INFO" => '/re_label_issue/'+issue+'/'+params[:commit]["author"]["name"])
+      call env.merge("PATH_INFO" => '/re_label_issue/'+issue+'/'+params[:commit_author])
       return "Do not Reopen for Review because Code is not Merged yet..."
     end
     if found=="false"
@@ -84,16 +84,16 @@ post '/reopen/:commit' do
         github.add_issue_label issue, "Re-Opened"
       end
       github.reopen_issue issue
-      call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit]["id"])
+      call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit_id])
       github.add_issue_label issue, "Waiting For Review"
     end
   end
 end
 
-post '/noreopen/:commit' do
-  GitHub.closed_issues(params[:commit]["message"]) do |issue|
+post '/noreopen/:commit_message/:commit_author' do
+  GitHub.closed_issues(params[:commit_message]) do |issue|
     github.remove_issue_label issue, "New Issue"
-    github.add_issue_label issue, params[:commit]["author"]["name"]
+    github.add_issue_label issue, params[:commit_author]
     github.add_issue_label issue, "Accepted"
   end
 end
