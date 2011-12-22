@@ -31,8 +31,8 @@ helpers do
     settings.token == params[:token]
   end
   
-  def accepted
-    @accepted = "false"
+  def found
+    @found = "false"
   end
 
   def waiting
@@ -63,26 +63,30 @@ end
 
 post '/reopen/:commit' do
   GitHub.closed_issues(params[:commit]["message"]) do |issue|
-    accepted = "false"
-    waiting = "false"
-    github.view_issue_label issue do |label|
-      if label=="Accepted"
-        accepted = "true"
-      end
-      if label=="Waiting For Review"
-        waiting = "true"
-      end
+    call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/Accepted')
+    return "Issue Accepted" if found=="true"
+
+    call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/New Issue')
+    if found=="true"
+      call env.merge("PATH_INFO" => '/re_label_issue/'+issue+'/'+params[:commit]["author"]["name"])
+      return "Do not Reopen for Review because Code is not Merged yet..."
     end
-    return "Issue Accepted" if accepted=="true"
-    if waiting=="true"
+    if found=="false"
+      call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/Re-Opened')
+      if found=="true"
+        github.remove_issue_label issue, "Re-Opened"
+        github.add_issue_label issue, "Again"
+        return "Again Fixed by Developer"
+      end
+      call env.merge("PATH_INFO" => '/check_issue_label/'+issue+'/Again')
+      if found=="true"
+        github.remove_issue_label issue, "Again"
+        github.add_issue_label issue, "Re-Opened"
+      end
       github.reopen_issue issue
-      return "Issue Already Waiting for Review"
+      call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit]["id"])
+      github.add_issue_label issue, "Waiting For Review"
     end
-    github.reopen_issue issue
-    call env.merge("PATH_INFO" => '/comment/'+issue+'/'+params[:commit]["id"])
-    github.remove_issue_label issue, "New Issue"
-    github.add_issue_label issue, params[:commit]["author"]["name"]
-    github.add_issue_label issue, "Waiting For Review"
   end
 end
 
@@ -92,6 +96,21 @@ post '/noreopen/:commit' do
     github.add_issue_label issue, params[:commit]["author"]["name"]
     github.add_issue_label issue, "Accepted"
   end
+end
+
+get '/check_issue_label/:issue/:label' do
+  found = "false"
+  github.view_issue_label params[:issue] do |labels|
+    if labels==params[:label]
+      found = "true"
+    end
+  end
+  return found
+end
+
+post '/re_label_issue/:issue/:commiter' do
+  github.remove_issue_label params[:issue], "New Issue"
+  github.add_issue_label params[:issue], params[:commiter]
 end
 
 post '/comment/:issue/:commit_id' do
