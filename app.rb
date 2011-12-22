@@ -54,7 +54,7 @@ end
 
 post '/action/:token' do
   respond_to_commits do |commit|
-    call env.merge("PATH_INFO" => '/reopen/'+commit["author"]["name"]+'/'+commit["message"]+"/"+commit["id"]) unless commit["author"]["email"]==gitemail
+    call env.merge("PATH_INFO" => '/reopen/'+commit["author"]["name"]+'/'+commit["message"]+'/'+commit["id"]) unless commit["author"]["email"]==gitemail
     if commit["author"]["email"]==gitemail
       call env.merge("PATH_INFO" => '/noreopen/'+commit["author"]["name"]+'/'+commit["message"])
     end 
