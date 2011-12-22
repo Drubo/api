@@ -21,7 +21,7 @@ class GitHub
     @repo = repo
   end
 
-  def label_issue(issue, label)
+  def add_issue_label(issue, label)
     self.class.post("/issues/label/add/#{@user}/#{@repo}/#{label}/#{issue}", options)
   end
   
