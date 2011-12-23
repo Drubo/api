@@ -46,7 +46,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/reopen/60/1234/Tariqul Islam')
+  github.view_issue_label 60
 end
 
 post '/action/:token' do
