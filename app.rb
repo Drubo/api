@@ -44,7 +44,7 @@ get '/' do
   'Api Initialized...'
 end
 
-post '/action/:token' do
+get '/action/:token' do
   "Hi"
 end
 
