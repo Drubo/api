@@ -67,9 +67,7 @@ class GitHub
   end
   
   def comment(issue, commit_id)
-    comment = <<EOM
-  Issue referenced by #{commit_id} is reopening automatically for Review
-  EOM
+    comment = "Issue referenced by #{commit_id} is reopening automatically for Review"
     comment_issue issue, comment
   end
 
