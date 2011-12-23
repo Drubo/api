@@ -54,6 +54,11 @@ class GitHub
     end
     return found
   end
+  
+  def re_label_issue(issue, commiter)
+    remove_issue_label issue, "New Issue"
+    add_issue_label issue, commiter
+  end
 
   def self.issue(message)
     message[/gh-(\d+)/i,1]

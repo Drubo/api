@@ -42,7 +42,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/re_label_issue/60/Tariqul Islam')
+  github.re_label_issue 60, "Tariqul Islam"
 end
 
 post '/action/:token' do
@@ -62,7 +62,7 @@ post '/reopen/:issue/:commit_id/:commit_author' do
 
   response = github.check_issue_label params[:issue], 'New Issue'
   if response=="true"
-    call env.merge("PATH_INFO" => '/re_label_issue/#{params[:issue]}/#{params[:commit_author]}')
+    github.re_label_issue params[:issue], params[:commit_author]
     return "Do not Reopen for Review because Code is not Merged yet..."
   end
   if response=="false"
@@ -87,11 +87,6 @@ post '/noreopen/:issue/:commit_author' do
   github.remove_issue_label params[:issue], "New Issue"
   github.add_issue_label params[:issue], params[:commit_author]
   github.add_issue_label params[:issue], "Accepted"
-end
-
-post '/re_label_issue/:issue/:commiter' do
-  github.remove_issue_label params[:issue], "New Issue"
-  github.add_issue_label params[:issue], params[:commiter]
 end
 
 post '/comment/:issue/:commit_id' do
