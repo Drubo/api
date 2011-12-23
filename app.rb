@@ -39,7 +39,7 @@ helpers do
     "OK"
   end
 end
-
+ 
 get '/' do
   'Api Initialized...'
 end
