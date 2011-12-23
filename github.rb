@@ -44,6 +44,16 @@ class GitHub
       yield label
     end
   end
+  
+  def check_issue_label(issue, label)
+    found = "false"
+    self.class.view_issue_label(issue) do |labels|
+      if labels==label
+        found = "true"
+      end
+    end
+    return found
+  end
 
   def self.issue(message)
     message[/gh-(\d+)/i,1]
