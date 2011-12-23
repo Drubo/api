@@ -97,7 +97,7 @@ end
 post '/check_issue_label/:issue/:label' do
   found = "false"
   github.view_issue_label params[:issue] do |labels|
-    labels
+    puts labels
     if labels==params[:label]
       found = "true"
     end
