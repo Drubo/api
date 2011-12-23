@@ -46,9 +46,8 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.view_issue_label 60 do |label|
-    label
-  end
+  call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
+  puts found
 end
 
 post '/action/:token' do
