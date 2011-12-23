@@ -51,7 +51,7 @@ post '/action/:token' do
       puts commit["author"]["email"]
       puts "ReOpen" unless commit["author"]["email"]==gitemail
       if commit["author"]["email"]==gitemail
-        puts "No ReOpen"
+        call env.merge("PATH_INFO" => '/noreopen/#{issue}/#{commit["author"]["name"]}')
       end 
     end
   end
