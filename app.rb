@@ -51,7 +51,7 @@ post '/action/:token' do
       puts commit["author"]["email"]
       puts "ReOpen" unless commit["author"]["email"]==gitemail
       if commit["author"]["email"]==gitemail
-        call env.merge("PATH_INFO" => '/noreopen/#{issue}/#{commit["author"]["name"]}')
+        github.noreopen issue, commit["author"]["name"]
       end 
     end
   end
@@ -82,12 +82,6 @@ post '/reopen/:issue/:commit_id/:commit_author' do
     call env.merge("PATH_INFO" => '/comment/#{params[:issue]}/#{params[:commit_id]}')
     github.add_issue_label params[:issue], "Waiting For Review"
   end
-end
-
-post '/noreopen/:issue/:commit_author' do
-  github.remove_issue_label params[:issue], "New Issue"
-  github.add_issue_label params[:issue], params[:commit_author]
-  github.add_issue_label params[:issue], "Accepted"
 end
 
 post '/comment/:issue/:commit_id' do

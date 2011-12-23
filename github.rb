@@ -59,7 +59,13 @@ class GitHub
     remove_issue_label issue, "New Issue"
     add_issue_label issue, commiter
   end
-
+  
+  def noreopen(issue, commit_author)
+    remove_issue_label issue, "New Issue"
+    add_issue_label issue, commit_author
+    add_issue_label issue, "Accepted"
+  end
+  
   def self.issue(message)
     message[/gh-(\d+)/i,1]
   end
