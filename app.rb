@@ -38,7 +38,7 @@ helpers do
     end
     "OK"
   end
-end 
+end
 
 get '/' do
   'Api Initialized...'
