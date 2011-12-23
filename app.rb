@@ -47,7 +47,10 @@ end
 post '/action/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
-      puts issue 
+      puts issue
+      puts commit["author"]["email"]
+      puts commit["id"]
+      
     end
   end
 end
