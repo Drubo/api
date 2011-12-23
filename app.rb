@@ -31,10 +31,6 @@ helpers do
     settings.token == params[:token]
   end
   
-  def found
-    @found = "false"
-  end
-
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
     payload["commits"].reverse.each do |commit|
@@ -46,7 +42,8 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/reopen/60/1234/Tariqul Islam')
+  response = call env.merge("PATH_INFO" => '/check_issue_label/60/Tariqul Islam')
+  puts response
 end
 
 post '/action/:token' do
