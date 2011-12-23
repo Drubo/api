@@ -96,14 +96,13 @@ post '/noreopen/:issue/:commit_author' do
   github.add_issue_label params[:issue], "Accepted"
 end
 
-get '/check_issue_label/:issue/:label' do
+post '/check_issue_label/:issue/:label' do
   found = "false"
   github.view_issue_label params[:issue] do |labels|
     if labels==params[:label]
       found = "true"
     end
   end
-  return found
 end
 
 post '/re_label_issue/:issue/:commiter' do
