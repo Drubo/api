@@ -46,8 +46,8 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
-  puts found
+  response = call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
+  puts response
 end
 
 post '/action/:token' do
@@ -94,14 +94,14 @@ post '/noreopen/:issue/:commit_author' do
   github.add_issue_label params[:issue], "Accepted"
 end
 
-post '/check_issue_label/:issue/:label' do
+get '/check_issue_label/:issue/:label' do
   found = "false"
   github.view_issue_label params[:issue] do |labels|
-    puts labels
     if labels==params[:label]
       found = "true"
     end
   end
+  return found
 end
 
 post '/re_label_issue/:issue/:commiter' do
