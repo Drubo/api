@@ -55,8 +55,8 @@ class GitHub
     return found
   end
   
-  def re_label_issue(issue, commiter)
-    remove_issue_label issue, "New Issue"
+  def re_label_issue(issue, commiter, label_to_remove)
+    remove_issue_label issue, label_to_remove
     add_issue_label issue, commiter
   end
   
@@ -70,9 +70,15 @@ class GitHub
     response = check_issue_label issue, 'Accepted'
     return "Issue Accepted" unless response=="false"
   
+    response = check_issue_label issue, 'Waiting For Review'
+    if response=="true"
+      re_label_issue issue, commit_author, 'Waiting For Review'
+      return "Do not Reopen for Review because New Code is not Merged yet..."
+    end
+
     response = check_issue_label issue, 'New Issue'
     if response=="true"
-      re_label_issue issue, commit_author
+      re_label_issue issue, commit_author, 'New Issue'
       return "Do not Reopen for Review because Code is not Merged yet..."
     end
     if response=="false"
