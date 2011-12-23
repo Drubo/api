@@ -42,7 +42,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  github.re_label_issue 60, "Tariqul Islam"
+  call env.merge("PATH_INFO" => '/comment/60/1234')
 end
 
 post '/action/:token' do
