@@ -50,6 +50,7 @@ end
 
 get '/' do
   'Api Initialized...'
+  call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
 end
 
 post '/action/:token' do
