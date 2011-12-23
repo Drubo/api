@@ -45,14 +45,7 @@ get '/' do
 end
 
 post '/action/:token' do
-  respond_to_commits do |commit|
-    GitHub.closed_issues(commit["message"]) do |issue|
-      call env.merge("PATH_INFO" => '/reopen/#{issue}/#{commit["id"]}/#{commit["author"]["name"]}') unless commit["author"]["email"]==gitemail
-      if commit["author"]["email"]==gitemail
-        call env.merge("PATH_INFO" => '/noreopen/#{issue}/#{commit["author"]["name"]}')
-      end 
-    end
-  end
+  "Hi"
 end
 
 post '/reopen/:issue/:commit_id/:commit_author' do
