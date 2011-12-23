@@ -73,6 +73,11 @@ class GitHub
     response = check_issue_label issue, 'Waiting For Review'
     if response=="true"
       re_label_issue issue, commit_author, 'Waiting For Review'
+      response = check_issue_label issue, 'Re-Opened'
+      if response=="true"
+        remove_issue_label issue, "Re-Opened"
+        add_issue_label issue, "Again"
+      end
       return "Do not Reopen for Review because New Code is not Merged yet..."
     end
 
