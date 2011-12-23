@@ -103,7 +103,7 @@ get '/check_issue_label/:issue/:label' do
       found = "true"
     end
   end
-  return found
+  yield found
 end
 
 post '/re_label_issue/:issue/:commiter' do
