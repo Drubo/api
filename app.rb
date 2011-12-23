@@ -47,10 +47,10 @@ end
 post '/action/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
-      puts issue
-      puts commit["author"]["name"]
-      puts commit["id"]
-      
+      return "ReOpen" unless commit["author"]["email"]==gitemail
+      if commit["author"]["email"]==gitemail
+        return "No ReOpen"
+      end 
     end
   end
 end
