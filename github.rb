@@ -47,7 +47,7 @@ class GitHub
   
   def check_issue_label(issue, label)
     found = "false"
-    self.class.view_issue_label(issue) do |labels|
+    view_issue_label issue do |labels|
       if labels==label
         found = "true"
       end
