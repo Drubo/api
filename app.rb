@@ -42,7 +42,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/reopen/60/1234/Tariqul Islam')
+  call env.merge("PATH_INFO" => '/re_label_issue/60/Tariqul Islam')
 end
 
 post '/action/:token' do
