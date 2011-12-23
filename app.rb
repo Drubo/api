@@ -12,11 +12,11 @@ helpers do
   end
 
   def repo
-    @repo = "Verified"
+    @repo = "#{payload["repository"]["name"]}"
   end
 
   def gituser
-    @gituser = "Drubo"
+    @gituser = "#{payload["repository"]["owner"]["name"]}"
   end
 
   def gitemail
@@ -42,7 +42,6 @@ end
 
 get '/' do
   'Api Initialized...'
-  call env.merge("PATH_INFO" => '/comment/60/1234')
 end
 
 post '/action/:token' do
