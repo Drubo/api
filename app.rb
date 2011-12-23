@@ -43,10 +43,11 @@ end
 get '/' do
   'Api Initialized...'
   response = call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
-  if response=="true"
+  puts response
+  if response==true
     puts "True"
   end
-  if response=="false"
+  if response==false
     puts "False"
   end
 end
