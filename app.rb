@@ -47,46 +47,10 @@ end
 post '/action/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
-      puts gitemail
-      puts commit["author"]["email"]
-      puts "ReOpen" unless commit["author"]["email"]==gitemail
+      github.reopen issue, commit["id"], commit["author"]["name"] unless commit["author"]["email"]==gitemail
       if commit["author"]["email"]==gitemail
         github.noreopen issue, commit["author"]["name"]
       end 
     end
   end
-end
-
-post '/reopen/:issue/:commit_id/:commit_author' do
-  response = github.check_issue_label params[:issue], 'Accepted'
-  return "Issue Accepted" unless response=="false"
-
-  response = github.check_issue_label params[:issue], 'New Issue'
-  if response=="true"
-    github.re_label_issue params[:issue], params[:commit_author]
-    return "Do not Reopen for Review because Code is not Merged yet..."
-  end
-  if response=="false"
-    response = github.check_issue_label params[:issue], 'Re-Opened'
-    if response=="true"
-      github.remove_issue_label params[:issue], "Re-Opened"
-      github.add_issue_label params[:issue], "Again"
-      return "Again Fixed by Developer"
-    end
-    response = github.check_issue_label params[:issue], 'Again'
-    if response=="true"
-      github.remove_issue_label params[:issue], "Again"
-      github.add_issue_label params[:issue], "Re-Opened"
-    end
-    github.reopen_issue params[:issue]
-    call env.merge("PATH_INFO" => '/comment/#{params[:issue]}/#{params[:commit_id]}')
-    github.add_issue_label params[:issue], "Waiting For Review"
-  end
-end
-
-post '/comment/:issue/:commit_id' do
-  comment = <<EOM
-Issue referenced by #{params[:commit_id]} is reopening automatically for Review
-EOM
-  github.comment_issue params[:issue], comment
 end

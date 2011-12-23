@@ -66,6 +66,40 @@ class GitHub
     add_issue_label issue, "Accepted"
   end
   
+  def reopen(issue, commit_id, commit_author)
+    response = check_issue_label issue, 'Accepted'
+    return "Issue Accepted" unless response=="false"
+  
+    response = check_issue_label issue, 'New Issue'
+    if response=="true"
+      re_label_issue issue, commit_author
+      return "Do not Reopen for Review because Code is not Merged yet..."
+    end
+    if response=="false"
+      response = check_issue_label issue, 'Re-Opened'
+      if response=="true"
+        remove_issue_label issue, "Re-Opened"
+        add_issue_label issue, "Again"
+        return "Again Fixed by Developer"
+      end
+      response = check_issue_label issue, 'Again'
+      if response=="true"
+        remove_issue_label issue, "Again"
+        add_issue_label issue, "Re-Opened"
+      end
+      reopen_issue issue
+      comment issue, commit_id
+      add_issue_label issue, "Waiting For Review"
+    end
+  end
+  
+  def comment(issue, commit_id)
+    comment = <<EOM
+  Issue referenced by #{commit_id} is reopening automatically for Review
+  EOM
+    comment_issue issue, comment
+  end
+
   def self.issue(message)
     message[/gh-(\d+)/i,1]
   end
