@@ -46,8 +46,7 @@ end
 
 get '/' do
   'Api Initialized...'
-  response = call env.merge("PATH_INFO" => '/check_issue_label/60/New Issue')
-  puts response
+  call env.merge("PATH_INFO" => '/reopen/60/1234/Tariqul Islam')
 end
 
 post '/action/:token' do
@@ -62,23 +61,23 @@ post '/action/:token' do
 end
 
 post '/reopen/:issue/:commit_id/:commit_author' do
-  call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Accepted')
-  return "Issue Accepted" unless found=="false"
+  response = call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Accepted')
+  return "Issue Accepted" unless response=="false"
 
-  call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/New Issue')
-  if found=="true"
+  response = call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/New Issue')
+  if response=="true"
     call env.merge("PATH_INFO" => '/re_label_issue/#{params[:issue]}/#{params[:commit_author]}')
     return "Do not Reopen for Review because Code is not Merged yet..."
   end
-  if found=="false"
-    call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Re-Opened')
-    if found=="true"
+  if response=="false"
+    response = call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Re-Opened')
+    if response=="true"
       github.remove_issue_label params[:issue], "Re-Opened"
       github.add_issue_label params[:issue], "Again"
       return "Again Fixed by Developer"
     end
-    call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Again')
-    if found=="true"
+    response = call env.merge("PATH_INFO" => '/check_issue_label/#{params[:issue]}/Again')
+    if response=="true"
       github.remove_issue_label params[:issue], "Again"
       github.add_issue_label params[:issue], "Re-Opened"
     end
