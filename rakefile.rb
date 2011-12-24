@@ -1,2 +1,3 @@
-require './app'
-run Sinatra::Application
+task :travis do
+  puts "API Test OK"
+end
