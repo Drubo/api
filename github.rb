@@ -66,41 +66,51 @@ class GitHub
     add_issue_label issue, "Accepted"
   end
 
-  def reopen(issue, commit_id, commit_author)
+  def reopen(issue, commit_id, commit_author, ref)
     response = check_issue_label issue, 'Accepted'
     return "Issue Accepted" unless response=="false"
   
     response = check_issue_label issue, 'Waiting For Review'
     if response=="true"
-      re_label_issue issue, commit_author, 'Waiting For Review'
-      response = check_issue_label issue, 'Re-Opened'
-      if response=="true"
-        remove_issue_label issue, "Re-Opened"
-        add_issue_label issue, "Again"
+      if ref != "refs/heads/master"
+        re_label_issue issue, commit_author, 'Waiting For Review'
+        response = check_issue_label issue, 'Re-Opened'
+        if response=="true"
+          remove_issue_label issue, "Re-Opened"
+          add_issue_label issue, "Again"
+        end
+        return "Do not Reopen for Review because New Code is not Merged yet..."
+      else
+        reopen_issue issue
       end
-      return "Do not Reopen for Review because New Code is not Merged yet..."
     end
 
     response = check_issue_label issue, 'New Issue'
     if response=="true"
-      re_label_issue issue, commit_author, 'New Issue'
-      return "Do not Reopen for Review because Code is not Merged yet..."
+      if ref != "refs/heads/master"
+        re_label_issue issue, commit_author, 'New Issue'
+        return "Do not Reopen for Review because Code is not Merged yet..."
+      end
     end
     if response=="false"
-      response = check_issue_label issue, 'Re-Opened'
-      if response=="true"
-        remove_issue_label issue, "Re-Opened"
-        add_issue_label issue, "Again"
-        return "Again Fixed by Developer"
+      if ref != "refs/heads/master"
+        response = check_issue_label issue, 'Re-Opened'
+        if response=="true"
+          remove_issue_label issue, "Re-Opened"
+          add_issue_label issue, "Again"
+          return "Again Fixed by Developer"
+        end
       end
-      response = check_issue_label issue, 'Again'
-      if response=="true"
-        remove_issue_label issue, "Again"
-        add_issue_label issue, "Re-Opened"
+      if ref == "refs/heads/master"
+        response = check_issue_label issue, 'Again'
+        if response=="true"
+          remove_issue_label issue, "Again"
+          add_issue_label issue, "Re-Opened"
+        end
+        reopen_issue issue
+        comment issue, commit_id
+        add_issue_label issue, "Waiting For Review"
       end
-      reopen_issue issue
-      comment issue, commit_id
-      add_issue_label issue, "Waiting For Review"
     end
   end
   

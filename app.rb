@@ -31,6 +31,10 @@ helpers do
     settings.token == params[:token]
   end
   
+  def ref
+    @ref = payload["ref"]
+  end
+  
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
     payload["commits"].reverse.each do |commit|
@@ -50,7 +54,7 @@ post '/action/:token' do
       if commit["author"]["email"]==gitemail
         github.noreopen issue, commit["author"]["name"]
       else
-        github.reopen issue, commit["id"], commit["author"]["name"]
+        github.reopen issue, commit["id"], commit["author"]["name"], ref
       end 
     end
   end
