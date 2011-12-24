@@ -1,1 +1,3 @@
-puts "API Test OK"
+task :default do |t|
+  puts "API Test OK"
+end
