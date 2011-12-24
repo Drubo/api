@@ -1,0 +1,1 @@
+GitHub API. [![Build Status](https://secure.travis-ci.org/Drubo/api.png)](http://travis-ci.org/Drubo/api)
