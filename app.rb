@@ -37,7 +37,7 @@ helpers do
   
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
-    puts params[:payload]
+    params[:payload]
     payload["commits"].reverse.each do |commit|
       yield commit
     end
