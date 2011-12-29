@@ -107,9 +107,9 @@ class GitHub
         if response=="true"
           re_label_issue issue, "Re-Opened", "Again"
         end
-        reopen_issue issue
-        comment issue, commit_id
         add_issue_label issue, "Waiting For Review"
+        comment issue, commit_id
+        reopen_issue issue
       end
     end
   end
