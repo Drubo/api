@@ -37,7 +37,7 @@ helpers do
   
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
-    File.open("/test.log", "a") {|f| f.write(params[:payload]) }
+    File.open("/tmp/test.log", "a") {|f| f.write(params[:payload]) }
     payload["commits"].reverse.each do |commit|
       yield commit
     end
