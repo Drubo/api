@@ -46,7 +46,7 @@ helpers do
 end
 
 get '/' do
-  'Api Initialized...'
+  File.read(File.join('public', "/tmp/test.log"))
 end
 
 post '/action/:token' do
