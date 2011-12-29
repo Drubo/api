@@ -46,7 +46,7 @@ helpers do
 end
 
 get '/' do
-  File.open("/tmp/payload.log", "r") {|f| f }
+  File.open("/tmp/payload.log", "r") {|f| puts f }
 end
 
 post '/action/:token' do
