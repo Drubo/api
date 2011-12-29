@@ -37,6 +37,8 @@ helpers do
   
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
+    my_file = File.new("/test.log", APPEND)
+    my_file.puts params[:payload]
     payload["commits"].reverse.each do |commit|
       yield commit
     end
