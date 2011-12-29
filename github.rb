@@ -21,6 +21,11 @@ class GitHub
     @repo = repo
   end
 
+  def open_issue(payload)
+    options[:body] = {"title" => "Payload", "body" => payload}
+    self.class.post("/issues/open/#{@user}/#{@repo}", options)
+  end
+  
   def add_issue_label(issue, label)
     self.class.post("/issues/label/add/#{@user}/#{@repo}/#{label}/#{issue}", options)
   end
