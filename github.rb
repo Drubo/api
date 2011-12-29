@@ -60,9 +60,9 @@ class GitHub
     return found
   end
   
-  def re_label_issue(issue, commiter, label_to_remove)
+  def re_label_issue(issue, label_to_add, label_to_remove)
     remove_issue_label issue, label_to_remove
-    add_issue_label issue, commiter
+    add_issue_label issue, label_to_add
   end
   
   def noreopen(issue, commit_author)
@@ -81,12 +81,9 @@ class GitHub
         re_label_issue issue, commit_author, 'Waiting For Review'
         response = check_issue_label issue, 'Re-Opened'
         if response=="true"
-          remove_issue_label issue, "Re-Opened"
-          add_issue_label issue, "Again"
+          re_label_issue issue, "Again", "Re-Opened"
         end
         return "Do not Reopen for Review because New Code is not Merged yet..."
-      else
-        reopen_issue issue
       end
     end
 
@@ -101,16 +98,14 @@ class GitHub
       if ref != "refs/heads/master"
         response = check_issue_label issue, 'Re-Opened'
         if response=="true"
-          remove_issue_label issue, "Re-Opened"
-          add_issue_label issue, "Again"
+          re_label_issue issue, "Again", "Re-Opened"
           return "Again Fixed by Developer"
         end
       end
       if ref == "refs/heads/master"
         response = check_issue_label issue, 'Again'
         if response=="true"
-          remove_issue_label issue, "Again"
-          add_issue_label issue, "Re-Opened"
+          re_label_issue issue, "Re-Opened", "Again"
         end
         reopen_issue issue
         comment issue, commit_id
