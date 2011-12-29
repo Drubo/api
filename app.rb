@@ -37,6 +37,7 @@ helpers do
   
   def respond_to_commits
     return "UNKNOWN APP" unless authorized?
+    params[:payload]
     payload["commits"].reverse.each do |commit|
       yield commit
     end
@@ -45,7 +46,7 @@ helpers do
 end
 
 get '/' do
-  'Api Initialized...'
+  'API Initialized...'
 end
 
 post '/action/:token' do
