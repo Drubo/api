@@ -46,7 +46,7 @@ helpers do
 end
 
 get '/' do
-  File.read(File.join('public', "/tmp/test.log"))
+  File.read(File.join('tmp', "/test.log"))
 end
 
 post '/action/:token' do
