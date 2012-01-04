@@ -71,35 +71,41 @@ class GitHub
     add_issue_label issue, "Accepted"
   end
 
-  def reopen(issue, commit_id, commit_author, ref)
+  def reopen(issue, commit_id, commit_author, ref, pusher, commiteremail)
     response = check_issue_label issue, 'Accepted'
     return "Issue Accepted" unless response=="false"
   
     response = check_issue_label issue, 'Waiting For Review'
     if response=="true"
       if ref != "refs/heads/master"
-        re_label_issue issue, commit_author, 'Waiting For Review'
-        response = check_issue_label issue, 'Re-Opened'
-        if response=="true"
-          re_label_issue issue, "Again", "Re-Opened"
+        if pusher==commiteremail
+          re_label_issue issue, commit_author, 'Waiting For Review'
+          response = check_issue_label issue, 'Re-Opened'
+          if response=="true"
+            re_label_issue issue, "Again", "Re-Opened"
+          end
+          return "Do not Reopen for Review because New Code is not Merged yet..."
         end
-        return "Do not Reopen for Review because New Code is not Merged yet..."
       end
     end
 
     response = check_issue_label issue, 'New Issue'
     if response=="true"
       if ref != "refs/heads/master"
-        re_label_issue issue, commit_author, 'New Issue'
-        return "Do not Reopen for Review because Code is not Merged yet..."
+        if pusher==commiteremail
+          re_label_issue issue, commit_author, 'New Issue'
+          return "Do not Reopen for Review because Code is not Merged yet..."
+        end
       end
     end
     if response=="false"
       if ref != "refs/heads/master"
-        response = check_issue_label issue, 'Re-Opened'
-        if response=="true"
-          re_label_issue issue, "Again", "Re-Opened"
-          return "Again Fixed by Developer"
+        if pusher==commiteremail
+          response = check_issue_label issue, 'Re-Opened'
+          if response=="true"
+            re_label_issue issue, "Again", "Re-Opened"
+            return "Again Fixed by Developer"
+          end
         end
       end
       if ref == "refs/heads/master"
@@ -107,8 +113,11 @@ class GitHub
         if response=="true"
           re_label_issue issue, "Re-Opened", "Again"
         end
-        add_issue_label issue, "Waiting For Review"
-        comment issue, commit_id
+        response = check_issue_label issue, 'Waiting For Review'
+        if response!="true"
+          add_issue_label issue, "Waiting For Review"
+          comment issue, commit_id
+        end
         reopen_issue issue
       end
     end

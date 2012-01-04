@@ -22,6 +22,10 @@ helpers do
   def gitemail
     @gitemail = "#{payload["repository"]["owner"]["email"]}"
   end
+  
+  def pusher
+    @pusher = "#{payload["pusher"]["email"]}"
+  end
 
   def github
     @github = GitHub.new(repo, gituser, settings.token)
@@ -54,7 +58,7 @@ post '/action/:token' do
       if commit["author"]["email"]==gitemail
         github.noreopen issue, commit["author"]["name"]
       else
-        github.reopen issue, commit["id"], commit["author"]["name"], ref
+        github.reopen issue, commit["id"], commit["author"]["name"], ref, pusher, commit["author"]["email"]
       end 
     end
   end
