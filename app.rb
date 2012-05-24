@@ -5,7 +5,7 @@ require 'net/https'
 require 'json'
 require './github'
 
-set :token,  ENV['TOKENVERIFY']
+set :token,  ENV['TOKEN']
 helpers do
   def payload
     @payload = JSON.parse(params[:payload])
@@ -16,7 +16,7 @@ helpers do
   end
 
   def gituser
-    @gituser = "#{payload["repository"]["owner"]["name"]}"
+    @gituser = "Drubo"
   end
 
   def gitemail
@@ -40,7 +40,6 @@ helpers do
   end
   
   def respond_to_commits
-    return "UNKNOWN APP" unless authorized?
     payload["commits"].reverse.each do |commit|
       yield commit
     end
