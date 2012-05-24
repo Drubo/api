@@ -51,7 +51,7 @@ get '/' do
   'API Initialized...'
 end
 
-post '/action/:token' do
+post '/action' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
       github.noreopen issue
