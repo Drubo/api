@@ -16,7 +16,7 @@ helpers do
   end
 
   def gituser
-    @gituser = "Drubo"
+    @gituser = "tareq@webkutir.net"
   end
 
   def gitemail
