@@ -65,10 +65,8 @@ class GitHub
     add_issue_label issue, label_to_add
   end
   
-  def noreopen(issue, commit_author)
-    remove_issue_label issue, "New Issue"
-    add_issue_label issue, commit_author
-    add_issue_label issue, "Accepted"
+  def noreopen(issue)
+    add_issue_label issue, "Status - Needs Review"
   end
 
   def reopen(issue, commit_id, commit_author, ref, pusher, commiteremail)

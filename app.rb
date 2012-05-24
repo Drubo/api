@@ -5,7 +5,7 @@ require 'net/https'
 require 'json'
 require './github'
 
-set :token,  ENV['TOKEN']
+set :token,  ENV['TOKENVERIFY']
 helpers do
   def payload
     @payload = JSON.parse(params[:payload])
@@ -55,11 +55,7 @@ end
 post '/action/:token' do
   respond_to_commits do |commit|
     GitHub.closed_issues(commit["message"]) do |issue|
-      if commit["author"]["email"]==gitemail
-        github.noreopen issue, commit["author"]["name"]
-      else
-        github.reopen issue, commit["id"], commit["author"]["name"], ref, pusher, commit["author"]["email"]
-      end 
+      github.noreopen issue
     end
   end
 end
