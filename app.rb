@@ -5,7 +5,8 @@ require 'net/https'
 require 'json'
 require './github'
 
-set :token,  ENV['TOKEN']
+set :token,  ENV['PTOKEN']
+set :gu,  ENV['GITHUB_USERNAME']
 helpers do
   def payload
     @payload = JSON.parse(params[:payload])
@@ -16,7 +17,7 @@ helpers do
   end
 
   def gituser
-    @gituser = "tareq@webkutir.net"
+    @gituser = settings.gu
   end
 
   def gitemail

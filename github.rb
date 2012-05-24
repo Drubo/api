@@ -146,6 +146,6 @@ class GitHub
 
   private
     def options
-      @options ||= @user.nil? ? {} : { :basic_auth => {:username => @user+"/token", :password => @pass}}
+      @options ||= @user.nil? ? {} : { :basic_auth => {:username => @user, :password => @pass}}
     end
 end
