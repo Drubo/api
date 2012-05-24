@@ -27,7 +27,7 @@ class GitHub
   end
   
   def add_issue_label(issue, label)
-    self.class.post("/issues/label/add/#{@user}/#{@repo}/#{label}/#{issue}", options)
+    self.class.post("/issues/label/add/nibssolutions/#{@repo}/#{label}/#{issue}", options)
   end
   
   def remove_issue_label(issue, label)
