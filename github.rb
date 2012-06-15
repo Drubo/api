@@ -44,7 +44,7 @@ class GitHub
   end
   
   def view_issue_label(issue)
-    issue_info = self.class.get("/issues/show/#{@user}/#{@repo}/#{issue}", options)
+    issue_info = self.class.get("/issues/show/nibssolutions/#{@repo}/#{issue}", options)
     issue_info["issue"]["labels"].each do |label|
       yield label
     end
@@ -66,6 +66,9 @@ class GitHub
   end
   
   def noreopen(issue)
+    response = check_issue_label issue, 'Status - Fixed'
+    return "Fixed" unless response=="false"
+    
     add_issue_label issue, "Status - Needs Review"
   end
 
